@@ -10,9 +10,7 @@
 const heading = document.getElementsByTagName('h1')[0];
 const sign = document.getElementById('sign');
 const student = document.getElementsByClassName('student');
-
 const frame = document.querySelector('.frame');
-
 const button = document.querySelector('.custom-btn');
 const message = document.createElement('p');
 
@@ -35,6 +33,11 @@ function changeStyles(textColor, backgroundColor) {
     heading.style.color = textColor;
     sign.style.color = textColor;
     document.body.style.backgroundColor = backgroundColor;
+}
+
+function addToLocalStorage(buttonState, message) {
+    localStorage.setItem('buttonState', buttonState);
+    localStorage.setItem('date', message);
 }
 
 document.addEventListener('DOMContentLoaded', () => { 
@@ -62,15 +65,15 @@ button.addEventListener('click', () => {
         button.textContent = buttonStates.on;
         message.textContent = `Last turn off: ${new Date().toLocaleString()}`;
         changeStyles(stylesColors.textWhite, stylesColors.backGroundBlack);
-        localStorage.setItem('buttonState', buttonStates.on);
-        localStorage.setItem('date', message.textContent);
+        addToLocalStorage(buttonStates.on, message.textContent);
         return;
     }
     if (button.textContent === buttonStates.on) {
         button.textContent = buttonStates.off;
         message.textContent = `Last turn on: ${new Date().toLocaleString()}`;
         changeStyles(stylesColors.textBlack, stylesColors.backGroundWhite);
-        localStorage.setItem('buttonState', buttonStates.off);
-        localStorage.setItem('date', message.textContent);
+        addToLocalStorage(buttonStates.off, message.textContent);
     }
 });
+
+
