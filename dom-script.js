@@ -23,20 +23,34 @@ const buttonStates = {
     off: 'Turn off',
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+const stylesColors = {
+    textWhite: '#fff',
+    textBlack: '#141514',
+    backGroundWhite: '#e0e5ec',
+    backGroundBlack: '#1b1b1b',
+}
+
+function changeStyles(textColor, backgroundColor) {
+    message.style.color = textColor;
+    heading.style.color = textColor;
+    sign.style.color = textColor;
+    document.body.style.backgroundColor = backgroundColor;
+}
+
+document.addEventListener('DOMContentLoaded', () => { 
     const savedState = localStorage.getItem('buttonState');
     const savedDate = localStorage.getItem('date');
 
     if (savedState === null) {
         button.textContent = buttonStates.off;
-        document.body.style.backgroundColor = '#e0e5ec';
+        document.body.style.backgroundColor = stylesColors.backGroundWhite;
     } else {
         if (savedState === buttonStates.on && savedDate !== null) {
-            document.body.style.backgroundColor = '#1b1b1b';
+            changeStyles(stylesColors.textWhite, stylesColors.backGroundBlack);
             button.textContent = buttonStates.on;
             message.textContent = savedDate;
         } else {
-            document.body.style.backgroundColor = '#e0e5ec';
+            changeStyles(stylesColors.textBlack, stylesColors.backGroundWhite);
             button.textContent = buttonStates.off;
             message.textContent = savedDate;
         }
@@ -46,19 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
 button.addEventListener('click', () => {
     if (button.textContent === buttonStates.off) {
         button.textContent = buttonStates.on;
-        document.body.style.backgroundColor = '#1b1b1b';
         message.textContent = `Last turn off: ${new Date().toLocaleString()}`;
+        changeStyles(stylesColors.textWhite, stylesColors.backGroundBlack);
         localStorage.setItem('buttonState', buttonStates.on);
         localStorage.setItem('date', message.textContent);
         return;
     }
     if (button.textContent === buttonStates.on) {
         button.textContent = buttonStates.off;
-        document.body.style.backgroundColor = '#e0e5ec';
         message.textContent = `Last turn on: ${new Date().toLocaleString()}`;
+        changeStyles(stylesColors.textBlack, stylesColors.backGroundWhite);
         localStorage.setItem('buttonState', buttonStates.off);
         localStorage.setItem('date', message.textContent);
     }
 });
-
-
